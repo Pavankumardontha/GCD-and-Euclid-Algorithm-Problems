@@ -1,0 +1,47 @@
+#include<bits/stdc++.h>
+#include<iostream>
+using namespace std;
+
+
+long long int sd(long long int n)
+{
+    long long int s = 0;
+    while(n)
+    {
+        s+=n%10;
+        n=n/10;
+    }
+    return s;
+}
+
+long long int gcd(long long int a,long long int b)
+{
+    if(b==0)
+    return a;
+    else
+    return gcd(b,a%b);
+}
+
+
+int main()
+{
+    int t;
+    cin>>t;
+    long long int n;
+    long long int ans;
+    while(t--)
+    {
+        cin>>n;
+        while(1)
+        {
+            /* GCD would be greater than 1(atleast 2) when both n and sum of digits of n is even.This 
+            will be reached in some finite number of iterations.*/
+            ans = gcd(n,sd(n));
+            if(ans>1)
+            break;
+            else
+            n++;
+        }
+        cout<<n<<endl;
+    }
+}
