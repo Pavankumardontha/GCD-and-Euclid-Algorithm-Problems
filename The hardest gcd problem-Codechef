@@ -1,0 +1,91 @@
+#include<bits/stdc++.h>
+#include<iostream>
+using namespace std;
+
+
+int gcd(int a,int b)
+{
+    if(b==0)
+    return a;
+    else
+    return gcd(b,a%b);
+}
+
+bool primefactorisation(int n,int k)
+{
+    //this returns true if no prime factor in the prime factorisation of n is greater than k 
+    bool ans = true;
+    for(int i=2;i*i<=n;i++)
+    {
+        if(n%i==0)
+        {
+            while(n%i==0)
+            {
+                n=n/i;
+            }
+            //if this prime factor i,comes out to be greater than k,we return false and stop the process.
+            if(i>k)
+            {
+                ans = false;
+                return ans;
+            }
+        }
+    }
+    if(n>1)
+    {
+        if(n>k)
+        ans = false;
+    }
+    return ans;
+}
+
+
+
+
+int main()
+{
+    int t;
+    cin>>t;
+    int n;
+    int k;
+    while(t--)
+    {
+        
+        cin>>n>>k;
+        int a[n];
+        for(int i=0;i<n;i++)
+        cin>>a[i];
+        
+        /* We will do prime factorisation for all the a[i]'s. if all the divisors in the prime factorisation 
+        of a number a[i] are less than k,then we can make it 1 by dividing a[i] by all the prime factors.
+        if we can make atleast one element in array a as 1,then the GCD of the whole array would be 1 which 
+        is our required goal of the problem.So if for atleast one a[i], if all the divisors in the prime 
+        factorization comes out to be less than K,we can make it one and the GCD of the whole array would
+        be one.If there is not even one a[i] which satisfies the above property,we cannot have the GCD 
+        of the whole array as 1 even after doing operations mentioned in the problem.
+        Instead of finding the largest prime,in the prime factorisation of a[i], we can find the the 
+        gcd of the whole array initially.Let it be g. We will find the prime factorisation of g and 
+        find the largest prime in the prime factorisation of g. If this largest prime in the prime 
+        factorisation of g is less than k,we can achieve our required goal. If not,we cannot achieve 
+        our goal to make the GCD of the array to be 1.
+        
+        
+        IMPORTANT POINT: 
+        1)if after finding the gcd of an array and dividing each element of the array by the gcd of array,
+        we will get the GCD of the new array as 1.
+        2)If all of the a[i]'s have prime factor greater than k,then the gcd of a[i]'s will also have 
+        a prime factor greater than k.
+        
+        */
+        
+        int res = a[0];
+        for(int i=1;i<n;i++)
+        res = gcd(res,a[i]);
+        
+        bool ans = primefactorisation(res,k);
+        if(ans==true)
+        cout<<"YES"<<endl;
+        else
+        cout<<"NO"<<endl;
+    }
+}
